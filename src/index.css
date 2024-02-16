@@ -1,0 +1,20 @@
+
+/* Configuring base file of tailwind and keep-react */
+@import "keep-react/css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Reseting default margin padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "poppins";
+}
+
+/* To make whole body #f8f9fe*/
+body {
+  background-color: #f8f9fe;
+}
