@@ -1,10 +1,8 @@
-
 /* Configuring base file of tailwind and keep-react */
 @import "keep-react/css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 /* Reseting default margin padding */
 * {
@@ -17,4 +15,13 @@
 /* To make whole body #f8f9fe*/
 body {
   background-color: #f8f9fe;
+}
+
+/* Base button styles */
+nav li[aria-current="page"] button {
+  background-color: rgb(27 77 255 / var(--tw-bg-opacity)) !important;
+  padding: 0.5rem 1rem !important;
+  color: white;
+  font-weight: 500 !important;
+  border: 1px solid #0f3cd9 !important;
 }
