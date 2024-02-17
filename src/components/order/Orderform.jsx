@@ -5,19 +5,23 @@ import useContextProvider from "../../hooks/useContextProvider";
 import { useState } from "react";
 import moment from "moment";
 import useOrderId from "../../hooks/useOrderId";
+import useAxios from "../../hooks/useAxios";
+import swal from "sweetalert";
 
 const Orderform = () => {
   const { country } = useContextProvider();
   const orderID = useOrderId();
   const [orderType, setOrderType] = useState("");
+  const axiosInstance = useAxios();
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const newOrder = {
       name: data?.name,
       email: data?.email,
@@ -29,7 +33,16 @@ const Orderform = () => {
       orderType,
       orderID,
     };
-    console.log(newOrder);
+    const res = await axiosInstance.post("/create-new-order", newOrder);
+    if (res.data.insertedId) {
+      swal(
+        "Congrats",
+        `You have Succefully created New Order
+         Order Id ${orderID}`,
+        "success"
+      );
+      reset();
+    }
   };
 
   return (

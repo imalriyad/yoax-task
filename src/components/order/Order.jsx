@@ -2,10 +2,13 @@
 import { Button } from "keep-react";
 import OrderModal from "./OrderModal";
 import { useState } from "react";
+import useOrders from "../../hooks/useOrders";
 const Order = () => {
   const [showModalX, setShowModalX] = useState(false);
+  const { refetch } = useOrders();
   const onClickTwo = () => {
     setShowModalX(!showModalX);
+    refetch();
   };
   return (
     <>

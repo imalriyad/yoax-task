@@ -1,9 +1,12 @@
 "use client";
 import { Button, Dropdown, Pagination } from "keep-react";
 import { useState } from "react";
+import useOrders from "../../hooks/useOrders";
 
 const TableComponent = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const { orders } = useOrders()
+
   return (
     <div>
       <div className=" overflow-x-hidden rounded-md text-gray-800 ">
@@ -40,7 +43,10 @@ const TableComponent = () => {
               prevNextShape="roundSquare"
             />
           </div>
+
+          {/* Main table start here */}
           <table className="min-w-full text-xs">
+            {/* Table header start here */}
             <thead className="rounded-t-lg font-medium uppercase text-gray-600 bg-[#F8F9FE]">
               <tr className="text-center">
                 <th title="cheakbox" className="p-2 text-left">
@@ -52,7 +58,7 @@ const TableComponent = () => {
                 <th title="id" className="p-2 text-left">
                   Order ID
                 </th>
-                <th title="date" className="p-2 text-left">
+                <th title="date" className="p-2 text-center">
                   Date
                 </th>
                 <th title="status" className="p-2">
@@ -82,48 +88,69 @@ const TableComponent = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="text-center border-b border-opacity-20 border-gray-300 bg-[#FDFDFD]">
-                <td className="px-2 py-2 text-left">
-                  <input
-                    type="checkbox"
-                    name="All"
-                    className="w-3 h-3 rounded-sm accent-default-600"
-                  />
-                </td>
-                <td className="px-2 py-2 text-left">
-                  <span>1</span>
-                </td>
-                <td className="px-2 py-2 text-left">
-                  <span>#21323</span>
-                </td>
-                <td className="px-2 py-2 text-left">
-                  <span>19/02/2024</span>
-                </td>
-                <td className="px-2 py-2">
-                  <span>Pending</span>
-                </td>
-                <td className="px-2 py-2">
-                  <span>Al Riyad</span>
-                </td>
-                <td className="px-2 py-2">
-                  <span>imalriyad@gmail.com</span>
-                </td>
-                <td className="px-2 py-2 text-right">
-                  <span>Bangladesh</span>
-                </td>
-                <td className="px-2 py-2">
-                  <span>Dhaka</span>
-                </td>
-                <td className="px-2 py-2">
-                  <span>ShopifyAu</span>
-                </td>
-                <td className="px-2 py-2">
-                  <span>Customer</span>
-                </td>
-                <td className="px-2 py-2">
-                  <span>Edit</span>
-                </td>
-              </tr>
+              {orders?.map((order, idx) => (
+                <>
+                  <tr
+                    key={order._id}
+                    className="text-center border-b border-opacity-20 border-gray-300 bg-[#FDFDFD]"
+                  >
+                    <td className="px-2 py-2 text-left">
+                      <input
+                        type="checkbox"
+                        name="All"
+                        className="w-3 h-3 rounded-sm accent-default-600"
+                      />
+                    </td>
+                    <td className="px-2 py-2 text-left">
+                      <span>{idx + 1}</span>
+                    </td>
+                    <td className="px-2 py-2 text-left">
+                      <span>{order?.orderID}</span>
+                    </td>
+                    <td className="px-2 py-2 text-left">
+                      <span>{order?.date}</span>
+                    </td>
+                    <td className="px-2 py-2">
+                      <span
+                        className={`p-1 uppercase rounded-sm text-white ${
+                          order?.status === "pending"
+                            ? "bg-red-500"
+                            : "bg-green-500"
+                        }`}
+                      >
+                        {order?.status}
+                      </span>
+                    </td>
+                    <td className="px-2 py-2">
+                      <span>{order?.name}</span>
+                    </td>
+                    <td className="px-2 py-2">
+                      <span>{order?.email}</span>
+                    </td>
+                    <td className="px-2 py-2">
+                      <span>{order?.country}</span>
+                    </td>
+                    <td className="px-2 py-2">
+                      <span>{order?.shipping}</span>
+                    </td>
+                    <td className="px-2 py-2">
+                      <span>{order?.source}</span>
+                    </td>
+                    <td className="px-2 py-2">
+                      <span>{order?.orderType}</span>
+                    </td>
+                    <td className="px-2 py-2">
+                      <span>
+                        <img
+                          src="https://i.postimg.cc/brYBRpzh/edit.png"
+                          alt=""
+                          className="w-[15px] h-[15px] mx-auto cursor-pointer object-cover"
+                        />
+                      </span>
+                    </td>
+                  </tr>
+                </>
+              ))}
             </tbody>
           </table>
         </div>
