@@ -17,9 +17,10 @@ const TableComponent = () => {
                 Show
               </h1>
               <Dropdown
-                className="border border-gray-200 focus:outline-none justify-start bg-white hover:bg-white text-black"
+                className="border border-gray-200 focus:outline-none justify-start"
                 label="COLUMN"
                 size="xs"
+                type="primary"
                 dismissOnClick={true}
               >
                 <Dropdown.Item>ALL COLUMN</Dropdown.Item>
@@ -42,78 +43,84 @@ const TableComponent = () => {
           <table className="min-w-full text-xs">
             <thead className="rounded-t-lg font-medium uppercase text-gray-600 bg-[#F8F9FE]">
               <tr className="text-center">
-                <th title="cheakbox" className="p-3 text-left">
+                <th title="cheakbox" className="p-2 text-left">
                   #
                 </th>
-                <th title="id" className="p-3 text-left">
-                  ID
+                <th title="id" className="p-2 text-left">
+                  No
                 </th>
-                <th title="date" className="p-3 text-left">
+                <th title="id" className="p-2 text-left">
+                  Order ID
+                </th>
+                <th title="date" className="p-2 text-left">
                   Date
                 </th>
-                <th title="status" className="p-3">
+                <th title="status" className="p-2">
                   status
                 </th>
-                <th title="name" className="p-3">
+                <th title="name" className="p-2">
                   name
                 </th>
-                <th title="email" className="p-3 text-center">
+                <th title="email" className="p-2 text-center">
                   email
                 </th>
-                <th title="country" className="p-3 text-center">
+                <th title="country" className="p-2 text-center">
                   Country
                 </th>
-                <th title="shipping" className="p-3">
+                <th title="shipping" className="p-2">
                   Shipping
                 </th>
-                <th title="source" className="p-3">
+                <th title="source" className="p-2">
                   Source
                 </th>
-                <th title="order type" className="p-3">
+                <th title="order type" className="p-2">
                   order type
                 </th>
-                <th title="action" className="p-3">
+                <th title="action" className="p-2">
                   action
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr className="text-center border-b border-opacity-20 border-gray-300 bg-[#FDFDFD]">
-                <td className="px-3 py-2 text-left">
+                <td className="px-2 py-2 text-left">
                   <input
                     type="checkbox"
                     name="All"
                     className="w-3 h-3 rounded-sm accent-default-600"
                   />
                 </td>
-                <td className="px-3 py-2 text-left">
+                <td className="px-2 py-2 text-left">
                   <span>1</span>
                 </td>
-                <td className="px-3 py-2 text-left">
+                <td className="px-2 py-2 text-left">
+                  <span>#21323</span>
+                </td>
+                <td className="px-2 py-2 text-left">
                   <span>19/02/2024</span>
                 </td>
-                <td className="px-3 py-2">
+                <td className="px-2 py-2">
                   <span>Pending</span>
                 </td>
-                <td className="px-3 py-2">
+                <td className="px-2 py-2">
                   <span>Al Riyad</span>
                 </td>
-                <td className="px-3 py-2">
+                <td className="px-2 py-2">
                   <span>imalriyad@gmail.com</span>
                 </td>
-                <td className="px-3 py-2 text-right">
+                <td className="px-2 py-2 text-right">
                   <span>Bangladesh</span>
                 </td>
-                <td className="px-3 py-2">
+                <td className="px-2 py-2">
                   <span>Dhaka</span>
                 </td>
-                <td className="px-3 py-2">
+                <td className="px-2 py-2">
                   <span>ShopifyAu</span>
                 </td>
-                <td className="px-3 py-2">
+                <td className="px-2 py-2">
                   <span>Customer</span>
                 </td>
-                <td className="px-3 py-2">
+                <td className="px-2 py-2">
                   <span>Edit</span>
                 </td>
               </tr>

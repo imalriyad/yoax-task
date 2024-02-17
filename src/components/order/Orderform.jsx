@@ -1,42 +1,126 @@
-import { Dropdown, Label, TextInput } from "keep-react";
+import { Button, Label, TextInput } from "keep-react";
 import CountrySlect from "../CountrySlect";
+import { useForm } from "react-hook-form";
+import useContextProvider from "../../hooks/useContextProvider";
+import { useState } from "react";
+import moment from "moment";
+import useOrderId from "../../hooks/useOrderId";
 
 const Orderform = () => {
+  const { country } = useContextProvider();
+  const orderID = useOrderId();
+  const [orderType, setOrderType] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    const newOrder = {
+      name: data?.name,
+      email: data?.email,
+      shipping: data?.shipping,
+      country: country?.split(",")[0],
+      status: "pending",
+      source: `Shopify${country?.split(",")[1]}`,
+      date: moment().format("ll"),
+      orderType,
+      orderID,
+    };
+    console.log(newOrder);
+  };
+
   return (
     <form className="grid md:col-span-2 grid-cols-1 md:gap-4 gap-2">
+      {/* input feild for name */}
       <span>
         {" "}
-        <Label htmlFor="#id-8" value="Name" />
-        <TextInput id="#id-8" placeholder="Name" color="gray" />
+        <Label value="Name" />
+        <TextInput
+          {...register("name", { required: true })}
+          inputMode="text"
+          placeholder="Name"
+          color="gray"
+        />
+        {errors.name?.type === "required" && (
+          <p role="alert" className="text-red-500 text-xs">
+            Name is required
+          </p>
+        )}
       </span>
+
+      {/* Input feild for email */}
       <span>
         {" "}
-        <Label htmlFor="#id-8" value="Email" />
-        <TextInput id="#id-8" placeholder="Email" color="gray" />
+        <Label value="Email" />
+        <TextInput
+          {...register("email", {
+            required: "Email is required",
+            pattern: {
+              value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/i,
+              message: "Invalid email address",
+            },
+          })}
+          inputMode="email"
+          placeholder="Email"
+          color="gray"
+        />
+        {errors.email && (
+          <p role="alert" className="text-red-500 text-xs">
+            {errors.email.type === "required" && "Email is required"}
+            {errors.email.type === "pattern" && "Invalid email address"}
+          </p>
+        )}
       </span>
+
+      {/* Provide Shipping address */}
       <span>
         {" "}
-        <Label htmlFor="#id-8" value="Country" />
-        <CountrySlect></CountrySlect>
+        <Label value="Shipping Address" />
+        <TextInput
+          {...register("shipping", { required: true })}
+          placeholder="Shipping Address"
+          color="gray"
+        />
+        {errors.shipping?.type === "required" && (
+          <p role="alert" className="text-red-500 text-xs">
+            Shipping Address is required
+          </p>
+        )}
       </span>
-      <span>
-        {" "}
-        <Label htmlFor="#id-8" value="Shipping Address" />
-        <TextInput id="#id-8" placeholder="Shipping Address" color="gray" />
-      </span>
-      <span>
-        {" "}
-        <Label htmlFor="#id-8" value="Order Type" />
-        <Dropdown
-          label="Order Type"
-          size="xs"
-          type="primary"
-          dismissOnClick={true}
-        >
-          <Dropdown.Item>Customer</Dropdown.Item>
-          <Dropdown.Item>Retailer</Dropdown.Item>
-        </Dropdown>
-      </span>
+
+      <div className="flex items-center gap-4">
+        {/* Select Country */}
+        <span className="w-1/2">
+          <Label value="Country" />
+          {/* Country Selector components */}
+          <CountrySlect></CountrySlect>
+        </span>
+
+        {/* Order type dropdown */}
+        <span className="flex flex-col w-1/2">
+          {" "}
+          <Label value="Order Type" />
+          <select
+            onChange={(e) => setOrderType(e.target.value)}
+            className="max-w-full border text-sm px-2 border-gray-400 py-2 rounded-md"
+          >
+            <option className="text-gray-400">Order Type</option>
+            <option value="Customer">Customer</option>
+            <option value="Retailer">Retailer </option>
+          </select>
+        </span>
+      </div>
+      <Button
+        onClick={handleSubmit(onSubmit)}
+        size="xs"
+        className="w-full"
+        type="primary"
+      >
+        Create
+      </Button>
     </form>
   );
 };
