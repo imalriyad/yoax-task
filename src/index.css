@@ -25,3 +25,6 @@ nav li[aria-current="page"] button {
   font-weight: 500 !important;
   border: 1px solid #0f3cd9 !important;
 }
+.w-10.h-10.bg-primary-25 {
+  display: none;
+}

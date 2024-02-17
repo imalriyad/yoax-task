@@ -8,16 +8,17 @@ const TableComponent = () => {
     <div>
       <div className=" overflow-x-hidden rounded-md text-gray-800 ">
         <div className="overflow-x-auto">
-          <div className="md:flex items-center justify-between gap-4 bg-white p-3 rounded-lg">
-            <h1 className="md:text-lg text-xl font-semibold">
-              Product Summary
-            </h1>
+          <div className="md:flex items-center justify-between gap-4 bg-white p-6 rounded-lg">
+            <h1 className=" text-xl font-semibold">Product Summary</h1>
 
-            <div className="flex items-center md:pt-0 py-3 gap-5 justify-between">
+            <div className="flex items-center md:py-0 py-6 gap-5 justify-between">
               {/* Category selector */}
+              <h1 className="text-gray-600 md:block hidden font-medium">
+                Show
+              </h1>
               <Dropdown
                 className="border border-gray-200 focus:outline-none justify-start bg-white hover:bg-white text-black"
-                label="ALL COLUMN"
+                label="COLUMN"
                 size="xs"
                 dismissOnClick={true}
               >
@@ -38,46 +39,46 @@ const TableComponent = () => {
               prevNextShape="roundSquare"
             />
           </div>
-          <table className="min-w-full text-xs ">
-            <thead className="rounded-t-lg text-gray-600 bg-[#F8F9FE]">
-              <tr className="text-right">
-                <th title="Ranking" className="p-3 text-left">
-                  No
+          <table className="min-w-full text-xs">
+            <thead className="rounded-t-lg font-medium uppercase text-gray-600 bg-[#F8F9FE]">
+              <tr className="text-center">
+                <th title="cheakbox" className="p-3 text-left">
+                  #
                 </th>
-                <th title="Ranking" className="p-3 text-left">
+                <th title="id" className="p-3 text-left">
                   ID
                 </th>
-                <th title="Team name" className="p-3 text-left">
-                  Team
+                <th title="date" className="p-3 text-left">
+                  Date
                 </th>
-                <th title="Wins" className="p-3">
-                  W
+                <th title="status" className="p-3">
+                  status
                 </th>
-                <th title="Losses" className="p-3">
-                  L
+                <th title="name" className="p-3">
+                  name
                 </th>
-                <th title="Win percentage" className="p-3">
-                  Win%
+                <th title="email" className="p-3 text-center">
+                  email
                 </th>
-                <th title="Games behind" className="p-3">
-                  GB
+                <th title="country" className="p-3 text-center">
+                  Country
                 </th>
-                <th title="Home games" className="p-3">
-                  Home
+                <th title="shipping" className="p-3">
+                  Shipping
                 </th>
-                <th title="Away games" className="p-3">
-                  Away
+                <th title="source" className="p-3">
+                  Source
                 </th>
-                <th title="Last 10 games" className="p-3">
-                  L10
+                <th title="order type" className="p-3">
+                  order type
                 </th>
-                <th title="Current streak" className="p-3">
-                  Streak
+                <th title="action" className="p-3">
+                  action
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr className="text-right border-b border-opacity-20 border-gray-300 bg-[#FDFDFD]">
+              <tr className="text-center border-b border-opacity-20 border-gray-300 bg-[#FDFDFD]">
                 <td className="px-3 py-2 text-left">
                   <input
                     type="checkbox"
@@ -89,31 +90,31 @@ const TableComponent = () => {
                   <span>1</span>
                 </td>
                 <td className="px-3 py-2 text-left">
-                  <span>MIA</span>
+                  <span>19/02/2024</span>
                 </td>
                 <td className="px-3 py-2">
-                  <span>31</span>
+                  <span>Pending</span>
                 </td>
                 <td className="px-3 py-2">
-                  <span>17</span>
+                  <span>Al Riyad</span>
                 </td>
                 <td className="px-3 py-2">
-                  <span>.646</span>
+                  <span>imalriyad@gmail.com</span>
                 </td>
                 <td className="px-3 py-2 text-right">
-                  <span>0</span>
+                  <span>Bangladesh</span>
                 </td>
                 <td className="px-3 py-2">
-                  <span>17-5</span>
+                  <span>Dhaka</span>
                 </td>
                 <td className="px-3 py-2">
-                  <span>14-12</span>
+                  <span>ShopifyAu</span>
                 </td>
                 <td className="px-3 py-2">
-                  <span>8-2</span>
+                  <span>Customer</span>
                 </td>
                 <td className="px-3 py-2">
-                  <span>W2</span>
+                  <span>Edit</span>
                 </td>
               </tr>
             </tbody>

@@ -1,14 +1,29 @@
 "use client";
 import { Button } from "keep-react";
+import OrderModal from "./OrderModal";
+import { useState } from "react";
 const Order = () => {
+  const [showModalX, setShowModalX] = useState(false);
+  const onClickTwo = () => {
+    setShowModalX(!showModalX);
+  };
   return (
-    <div className="flex items-center justify-between">
-        {/* To create order */}
-      <h1 className="text-3xl font-bold">Orders</h1>
-      <Button className="uppercase" size="xs" type="primary">
-        Create New
-      </Button>
-    </div>
+    <>
+      <div className="flex items-center justify-between">
+        {/* create order button*/}
+        <h1 className="text-3xl font-bold">Orders</h1>
+        <Button
+          onClick={onClickTwo}
+          className="uppercase"
+          size="xs"
+          type="primary"
+        >
+          Create New
+        </Button>
+      </div>
+      {/* integrating modal components */}
+      <OrderModal onClickTwo={onClickTwo} showModalX={showModalX}></OrderModal>
+    </>
   );
 };
 
