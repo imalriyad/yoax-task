@@ -6,10 +6,12 @@ import swal from "sweetalert";
 import useContextProvider from "../../hooks/useContextProvider";
 import useTotalorder from "../../hooks/useTotalorder";
 import UpdateModal from "./updatemodal/UpdateModal";
+import useOrders from "../../hooks/useOrders";
 
 const TableComponent = () => {
   const [currentPage, setCurrentPage] = useState(0);
-  const { orders, refetch, setOrders } = useContextProvider();
+  const { orders, setOrders } = useContextProvider();
+  const { refetch } = useOrders();
   const axiosInstance = useAxios();
   const totalOrder = useTotalorder();
   const [selectedOrderId, setSelectedOrderId] = useState("");
@@ -73,8 +75,7 @@ const TableComponent = () => {
     }).then((willDelete) => {
       if (willDelete) {
         axiosInstance.put("/status", { selectedOrderId }).then((res) => {
-          console.log(res.data.deletedCount > 0);
-          if (res.data.deletedCount > 0) {
+          if (res.data.modifiedCount > 0) {
             refetch();
             swal("Congrats", `Your selected Order has Dispatched!`, "success");
           }
