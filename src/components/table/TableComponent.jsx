@@ -2,10 +2,46 @@
 import { Button, Dropdown, Pagination } from "keep-react";
 import { useState } from "react";
 import useOrders from "../../hooks/useOrders";
+import useAxios from "../../hooks/useAxios";
+import swal from "sweetalert";
 
 const TableComponent = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { orders } = useOrders()
+  const { orders, refetch } = useOrders();
+  const axiosInstance = useAxios();
+  const [selectedOrderId, setSelectedOrderId] = useState("");
+  const [column, setCoumn] = useState(10);
+
+  // Validation for cheackbox - dispatch
+  const handlecheackBox = (e, orderID) => {
+    const ischecked = e.target.checked;
+    if (ischecked) {
+      setSelectedOrderId(orderID);
+    } else {
+      setSelectedOrderId("");
+    }
+  };
+
+  // handle dispatch here
+  const handleDispatch = async () => {
+    swal({
+      title: "Are you sure?",
+      text: "Once dispatch, The status cant be change again ",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        axiosInstance.put("/status", { selectedOrderId }).then((res) => {
+          console.log(res.data.modifiedCount);
+          if (res.data.modifiedCount > 0) {
+            refetch();
+            swal("Congrats", `Your selected Order has Dispatched!`, "success");
+          }
+        });
+      }
+    });
+  };
 
   return (
     <div>
@@ -14,27 +50,45 @@ const TableComponent = () => {
           <div className="md:flex items-center justify-between gap-4 bg-white p-6 rounded-lg">
             <h1 className=" text-xl font-semibold">Product Summary</h1>
 
-            <div className="flex items-center md:py-0 py-6 gap-5 justify-between">
-              {/* Category selector */}
+            <div className="flex items-center md:py-0 py-6 md:gap-5 gap-1 justify-between">
+              {/* Column view*/}
               <h1 className="text-gray-600 md:block hidden font-medium">
                 Show
               </h1>
               <Dropdown
                 className="border border-gray-200 focus:outline-none justify-start"
-                label="COLUMN"
+                label={column === 10 ? " ALL COLUMN" : column + " COLUMN"}
                 size="xs"
                 type="primary"
                 dismissOnClick={true}
               >
-                <Dropdown.Item>ALL COLUMN</Dropdown.Item>
-                <Dropdown.Item>Settings</Dropdown.Item>
-                <Dropdown.Item>Earnings</Dropdown.Item>
-                <Dropdown.Item>Sign out</Dropdown.Item>
+                <Dropdown.Item onClick={() => setCoumn(10)}>
+                  ALL COLUMN
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setCoumn(4)}>
+                  4 COLUMN
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setCoumn(6)}>
+                  6 COLUMN
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setCoumn(8)}>
+                  8 COLUMN
+                </Dropdown.Item>
               </Dropdown>
-              <Button size="xs" className="uppercase" type="primary">
+
+              {/* Dispacth button */}
+              <Button
+                disabled={selectedOrderId === "" ? true : false}
+                onClick={handleDispatch}
+                size="xs"
+                className="uppercase"
+                type="primary"
+              >
                 Dispatch
               </Button>
             </div>
+
+            {/* Pagination */}
             <Pagination
               currentPage={currentPage}
               onPageChange={(val) => setCurrentPage(val)}
@@ -88,7 +142,7 @@ const TableComponent = () => {
               </tr>
             </thead>
             <tbody>
-              {orders?.map((order, idx) => (
+              {orders?.slice(0, column).map((order, idx) => (
                 <>
                   <tr
                     key={order._id}
@@ -96,8 +150,10 @@ const TableComponent = () => {
                   >
                     <td className="px-2 py-2 text-left">
                       <input
+                        onChange={(e) => handlecheackBox(e, order.orderID)}
                         type="checkbox"
-                        name="All"
+                        name="checkbox"
+                        value="check"
                         className="w-3 h-3 rounded-sm accent-default-600"
                       />
                     </td>
@@ -136,7 +192,7 @@ const TableComponent = () => {
                     <td className="px-2 py-2">
                       <span>{order?.source}</span>
                     </td>
-                    <td className="px-2 py-2">
+                    <td className="px-2 py-2 capitalize">
                       <span>{order?.orderType}</span>
                     </td>
                     <td className="px-2 py-2">

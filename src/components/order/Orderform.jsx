@@ -30,7 +30,7 @@ const Orderform = () => {
       status: "pending",
       source: `Shopify${country?.split(",")[1]}`,
       date: moment().format("ll"),
-      orderType,
+      orderType: orderType.toLowerCase(),
       orderID,
     };
     const res = await axiosInstance.post("/create-new-order", newOrder);
@@ -117,7 +117,7 @@ const Orderform = () => {
           {" "}
           <Label value="Order Type" />
           <select
-            onChange={(e) => setOrderType(e.target.value)}
+            onChange={(e) => setOrderType(e.target.value.toLowerCase())}
             className="max-w-full border text-sm px-2 border-gray-400 py-2 rounded-md"
           >
             <option className="text-gray-400">Order Type</option>

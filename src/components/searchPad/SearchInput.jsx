@@ -1,4 +1,8 @@
+import useContextProvider from "../../hooks/useContextProvider";
+
 const SearchInput = () => {
+  const { setSearchText } = useContextProvider();
+
   return (
     <div className="flex flex-col w-full gap-2">
       {/* Search Box for searching */}
@@ -7,6 +11,7 @@ const SearchInput = () => {
         <div>
           <div className="group relative">
             <input
+              onChange={(e) => setSearchText(e.target.value)}
               type="text"
               id="example9"
               className="block p-2 w-full bg-[#F8F9FE] focus:outline-none rounded-md border-gray-300 px-10 pr-0 md:text-sm text-xs shadow-sm"

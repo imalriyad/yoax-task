@@ -21,7 +21,7 @@ const Order = () => {
           size="xs"
           type="primary"
         >
-          Create New
+          Create Order
         </Button>
       </div>
       {/* integrating modal components */}
