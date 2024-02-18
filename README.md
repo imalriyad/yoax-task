@@ -1,8 +1,21 @@
-# React + Vite
+# Order Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This Order Management System is built with React.js, Tailwind CSS, Node.js, Express.js, MongoDB, and React Hooks with Context API. This system allows users to efficiently manage orders by providing search functionalities based on various conditions.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Search Functionality:** Easily search orders based on order type, order status, user name, email, city, and country.
+- **React.js:** Utilizes the React.js library for building interactive user interfaces.
+- **Tailwind CSS:** Provides a utility-first CSS framework for styling components and achieving responsiveness.
+- **Node.js & Express.js:** Backend server built with Node.js and Express.js for handling API requests.
+- **MongoDB:** Utilizes MongoDB as the database to store and manage order data.
+- **React Hooks with Context API:** Manages state and context in a scalable and efficient way.
+
+## Getting Started
+
+1. Clone the repository: `git clone https://github.com/imalriyad/yoax-task`
+2. Navigate to the project directory: `cd yoax-task`
+3. Install dependencies: `npm install`
+4. Start the development server: `npm run dev`
+
+
