@@ -17,14 +17,8 @@ body {
   background-color: #f8f9fe;
 }
 
-/* Base button styles */
-nav li[aria-current="page"] button {
-  background-color: rgb(27 77 255 / var(--tw-bg-opacity)) !important;
-  padding: 0.5rem 1rem !important;
+
+.activeBtn {
+  background-color: #0f3cd9;
   color: white;
-  font-weight: 500 !important;
-  border: 1px solid #0f3cd9 !important;
-}
-.w-10.h-10.bg-primary-25 {
-  display: none;
 }

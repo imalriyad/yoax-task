@@ -1,17 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "./useAxios";
 
+import useContextProvider from "./useContextProvider";
+
 const useOrders = () => {
   const axiosInstance = useAxios();
-  const { data: orders, refetch } = useQuery({
+  const { orders, setOrders } = useContextProvider();
+  const { refetch } = useQuery({
     queryKey: ["order"],
     queryFn: async () => {
-      const response = await axiosInstance.get("/get-all-order").then((res) => {
-        return res?.data;
-      });
-        return response
+      const response = await axiosInstance.get("/get-all-order");
+      setOrders(response.data);
+      return response.data;
     },
   });
+
+  console.log(orders);
   return { orders, refetch };
 };
 

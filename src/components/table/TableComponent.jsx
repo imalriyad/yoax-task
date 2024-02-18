@@ -1,16 +1,50 @@
 "use client";
-import { Button, Dropdown, Pagination } from "keep-react";
-import { useState } from "react";
-import useOrders from "../../hooks/useOrders";
+import { Button, Dropdown } from "keep-react";
+import { useEffect, useState } from "react";
 import useAxios from "../../hooks/useAxios";
 import swal from "sweetalert";
+import useContextProvider from "../../hooks/useContextProvider";
+import useTotalorder from "../../hooks/useTotalorder";
 
 const TableComponent = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { orders, refetch } = useOrders();
+  const { orders, refetch, setOrders } = useContextProvider();
   const axiosInstance = useAxios();
+  const totalOrder = useTotalorder();
   const [selectedOrderId, setSelectedOrderId] = useState("");
   const [column, setCoumn] = useState(10);
+
+  console.log(currentPage);
+
+  // pagination
+  const numberOfItemInPage = 5;
+  const numberOfpages = Math.ceil(totalOrder / numberOfItemInPage);
+  const pages = [...Array(numberOfpages).keys()];
+
+  useEffect(() => {
+    axiosInstance
+      .get(
+        `/order?page=${currentPage}&size=${numberOfItemInPage}`
+      )
+      .then((response) => {
+        setOrders(response.data);
+      });
+  }, [axiosInstance, currentPage, numberOfItemInPage, setOrders]);
+
+  const handlePageination = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleNext = () => {
+    if (currentPage < pages.length - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+  const handlePrev = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   // Validation for cheackbox - dispatch
   const handlecheackBox = (e, orderID) => {
@@ -89,13 +123,58 @@ const TableComponent = () => {
             </div>
 
             {/* Pagination */}
-            <Pagination
-              currentPage={currentPage}
-              onPageChange={(val) => setCurrentPage(val)}
-              totalPages={4}
-              iconWithOutText={true}
-              prevNextShape="roundSquare"
-            />
+            <div className="flex justify-center space-x-5 text-gray-100 py-4">
+              <button
+                title="previous"
+                type="button"
+                onClick={handlePrev}
+                className="inline-flex bg-white text-black items-center justify-center w-8 h-8 py-0 border rounded-md shadow-md "
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-4"
+                >
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+
+              {pages?.map((page) => (
+                <button
+                  key={page}
+                  type="button"
+                  onClick={() => handlePageination(page)}
+                  className={`inline-flex items-center justify-center w-8 h-8 text-sm font-semibold border rounded shadow-md bg-gray-900 ${
+                    page === currentPage ? "activeBtn" : "bg-white text-black"
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+
+              <button
+                title="next"
+                type="button"
+                onClick={handleNext}
+                className="inline-flex bg-white text-black items-center justify-center w-8 h-8 py-0 border rounded-md shadow-md "
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-4"
+                >
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
           </div>
 
           {/* Main table start here */}

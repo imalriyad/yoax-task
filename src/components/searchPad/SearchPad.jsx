@@ -6,16 +6,16 @@ import SelectorStatus from "./SelectorStatus";
 import useAxios from "../../hooks/useAxios";
 
 const SearchPad = () => {
-  const { category, setCategory, status, setStatus, searchText } =
+  const { category, setCategory, status, setStatus, searchText, setOrders } =
     useContextProvider();
   const axiosInstance = useAxios();
 
+  // Handle order search here
   const handleSearch = async () => {
-    // const { query, orderType, status }
     const res = await axiosInstance.get(
       `/orders?query=${searchText}&orderType=${category}&status=${status}`
     );
-    console.log(res.data);
+    setOrders(res.data);
   };
 
   return (

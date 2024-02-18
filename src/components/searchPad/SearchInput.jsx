@@ -2,7 +2,7 @@ import useContextProvider from "../../hooks/useContextProvider";
 
 const SearchInput = () => {
   const { setSearchText } = useContextProvider();
-
+  
   return (
     <div className="flex flex-col w-full gap-2">
       {/* Search Box for searching */}
