@@ -5,27 +5,31 @@ import useAxios from "../../hooks/useAxios";
 import swal from "sweetalert";
 import useContextProvider from "../../hooks/useContextProvider";
 import useTotalorder from "../../hooks/useTotalorder";
+import UpdateModal from "./updatemodal/UpdateModal";
 
 const TableComponent = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const { orders, refetch, setOrders } = useContextProvider();
   const axiosInstance = useAxios();
   const totalOrder = useTotalorder();
   const [selectedOrderId, setSelectedOrderId] = useState("");
-  const [column, setCoumn] = useState(10);
-
-  console.log(currentPage);
+  const [column, setCoumn] = useState(5);
+  const [showModalz, setShowModalz] = useState(false);
+  const [updateOrder, setUpdateOrder] = useState({});
+  // updateOrder modal
+  const openUpdatemodal = (order) => {
+    setShowModalz(!showModalz);
+    setUpdateOrder(order);
+  };
 
   // pagination
-  const numberOfItemInPage = 5;
+  const numberOfItemInPage = column;
   const numberOfpages = Math.ceil(totalOrder / numberOfItemInPage);
   const pages = [...Array(numberOfpages).keys()];
 
   useEffect(() => {
     axiosInstance
-      .get(
-        `/order?page=${currentPage}&size=${numberOfItemInPage}`
-      )
+      .get(`/order?page=${currentPage}&size=${numberOfItemInPage}`)
       .then((response) => {
         setOrders(response.data);
       });
@@ -38,11 +42,13 @@ const TableComponent = () => {
   const handleNext = () => {
     if (currentPage < pages.length - 1) {
       setCurrentPage(currentPage + 1);
+      setCoumn(5);
     }
   };
   const handlePrev = () => {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
+      setCoumn(5);
     }
   };
 
@@ -91,22 +97,16 @@ const TableComponent = () => {
               </h1>
               <Dropdown
                 className="border border-gray-200 focus:outline-none justify-start"
-                label={column === 10 ? " ALL COLUMN" : column + " COLUMN"}
+                label={column === 5 ? " ALL COLUMN" : column + " COLUMN"}
                 size="xs"
                 type="primary"
                 dismissOnClick={true}
               >
-                <Dropdown.Item onClick={() => setCoumn(10)}>
+                <Dropdown.Item onClick={() => setCoumn(5)}>
                   ALL COLUMN
                 </Dropdown.Item>
                 <Dropdown.Item onClick={() => setCoumn(4)}>
                   4 COLUMN
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => setCoumn(6)}>
-                  6 COLUMN
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => setCoumn(8)}>
-                  8 COLUMN
                 </Dropdown.Item>
               </Dropdown>
 
@@ -220,76 +220,87 @@ const TableComponent = () => {
                 </th>
               </tr>
             </thead>
+
+            {/* table body here */}
             <tbody>
-              {orders?.slice(0, column).map((order, idx) => (
-                <>
-                  <tr
-                    key={order._id}
-                    className="text-center border-b border-opacity-20 border-gray-300 bg-[#FDFDFD]"
-                  >
-                    <td className="px-2 py-2 text-left">
-                      <input
-                        onChange={(e) => handlecheackBox(e, order.orderID)}
-                        type="checkbox"
-                        name="checkbox"
-                        value="check"
-                        className="w-3 h-3 rounded-sm accent-default-600"
-                      />
-                    </td>
-                    <td className="px-2 py-2 text-left">
-                      <span>{idx + 1}</span>
-                    </td>
-                    <td className="px-2 py-2 text-left">
-                      <span>{order?.orderID}</span>
-                    </td>
-                    <td className="px-2 py-2 text-left">
-                      <span>{order?.date}</span>
-                    </td>
-                    <td className="px-2 py-2">
-                      <span
-                        className={`p-1 uppercase rounded-sm text-white ${
-                          order?.status === "pending"
-                            ? "bg-red-500"
-                            : "bg-green-500"
-                        }`}
-                      >
-                        {order?.status}
-                      </span>
-                    </td>
-                    <td className="px-2 py-2">
-                      <span>{order?.name}</span>
-                    </td>
-                    <td className="px-2 py-2">
-                      <span>{order?.email}</span>
-                    </td>
-                    <td className="px-2 py-2">
-                      <span>{order?.country}</span>
-                    </td>
-                    <td className="px-2 py-2">
-                      <span>{order?.shipping}</span>
-                    </td>
-                    <td className="px-2 py-2">
-                      <span>{order?.source}</span>
-                    </td>
-                    <td className="px-2 py-2 capitalize">
-                      <span>{order?.orderType}</span>
-                    </td>
-                    <td className="px-2 py-2">
-                      <span>
-                        <img
-                          src="https://i.postimg.cc/brYBRpzh/edit.png"
-                          alt=""
-                          className="w-[15px] h-[15px] mx-auto cursor-pointer object-cover"
+              {orders?.length < 1 ? (
+                <h1 className="text-2xl text-center font-medium">No Data </h1>
+              ) : (
+                orders?.slice(0, column).map((order, idx) => (
+                  <>
+                    <tr
+                      key={order._id}
+                      className="text-center border-b border-opacity-20 border-gray-300 bg-[#FDFDFD]"
+                    >
+                      <td className="px-2 py-2 text-left">
+                        <input
+                          onChange={(e) => handlecheackBox(e, order.orderID)}
+                          type="checkbox"
+                          name="checkbox"
+                          value="check"
+                          className="w-3 h-3 rounded-sm accent-default-600"
                         />
-                      </span>
-                    </td>
-                  </tr>
-                </>
-              ))}
+                      </td>
+                      <td className="px-2 py-2 text-left">
+                        <span>{idx + 1}</span>
+                      </td>
+                      <td className="px-2 py-2 text-left">
+                        <span>{order?.orderID}</span>
+                      </td>
+                      <td className="px-2 py-2 text-left">
+                        <span>{order?.date}</span>
+                      </td>
+                      <td className="px-2 py-2">
+                        <span
+                          className={`p-1 uppercase rounded-sm text-white ${
+                            order?.status === "pending"
+                              ? "bg-red-500"
+                              : "bg-green-500"
+                          }`}
+                        >
+                          {order?.status}
+                        </span>
+                      </td>
+                      <td className="px-2 py-2">
+                        <span>{order?.name}</span>
+                      </td>
+                      <td className="px-2 py-2">
+                        <span>{order?.email}</span>
+                      </td>
+                      <td className="px-2 py-2">
+                        <span>{order?.country}</span>
+                      </td>
+                      <td className="px-2 py-2">
+                        <span>{order?.shipping}</span>
+                      </td>
+                      <td className="px-2 py-2">
+                        <span>{order?.source}</span>
+                      </td>
+                      <td className="px-2 py-2 capitalize">
+                        <span>{order?.orderType}</span>
+                      </td>
+                      <td className="px-2 py-2">
+                        <span onClick={() => openUpdatemodal(order)}>
+                          <img
+                            src="https://i.postimg.cc/brYBRpzh/edit.png"
+                            alt=""
+                            className="w-[15px] h-[15px] mx-auto cursor-pointer object-cover"
+                          />
+                        </span>
+                      </td>
+                    </tr>
+                  </>
+                ))
+              )}
             </tbody>
           </table>
         </div>
       </div>
+      <UpdateModal
+        openUpdatemodal={openUpdatemodal}
+        showModalz={showModalz}
+        updateOrder={updateOrder}
+      ></UpdateModal>
     </div>
   );
 };

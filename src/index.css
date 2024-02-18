@@ -17,7 +17,9 @@ body {
   background-color: #f8f9fe;
 }
 
-
+.w-10.h-10.bg-primary-25 {
+  display: none;
+}
 .activeBtn {
   background-color: #0f3cd9;
   color: white;

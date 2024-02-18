@@ -15,7 +15,6 @@ const useOrders = () => {
     },
   });
 
-  console.log(orders);
   return { orders, refetch };
 };
 
