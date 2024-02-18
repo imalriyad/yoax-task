@@ -73,8 +73,8 @@ const TableComponent = () => {
     }).then((willDelete) => {
       if (willDelete) {
         axiosInstance.put("/status", { selectedOrderId }).then((res) => {
-          console.log(res.data.modifiedCount);
-          if (res.data.modifiedCount > 0) {
+          console.log(res.data.deletedCount > 0);
+          if (res.data.deletedCount > 0) {
             refetch();
             swal("Congrats", `Your selected Order has Dispatched!`, "success");
           }
